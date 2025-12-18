@@ -70,7 +70,9 @@ export default function RaceEditPage() {
             };
 
             if (isNew) {
-                await createRace(raceData as Omit<Race, 'id'>);
+                // レース名からIDを生成
+                const id = `rd${race.round}-${race.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                await createRace({ ...raceData, id } as Omit<Race, 'id'>);
                 alert('レースを追加しました！');
             } else {
                 await updateRaceData(raceId, raceData);
