@@ -1,0 +1,7 @@
+name = "race-championship"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "race-championship-db"
+database_id = "ebd79ae8-ba4a-4e97-b987-74dba1cd8c8d"
