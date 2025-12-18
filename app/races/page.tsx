@@ -38,8 +38,8 @@ export default function RacesPage() {
 
       <div className={styles.racesGrid}>
         {races.map((race) => (
-          <Link href={`/ races / ${race.id} `} key={race.id}>
-            <div className={`racing - card ${styles.raceCard} `}>
+          <Link href={`/races/${race.id}`} key={race.id}>
+            <div className={`racing-card ${styles.raceCard}`}>
               <div className={styles.raceRound}>ROUND {race.round}</div>
               <h3>{race.name}</h3>
               <div className={styles.raceInfo}>
