@@ -334,10 +334,13 @@ export async function createRace(race: Omit<Race, 'id'>): Promise<Race> {
  */
 export async function updateRaceData(id: string, race: Partial<Race>): Promise<Race> {
   try {
+    // idはURLパラメータとして送信されるため、ボディから除外
+    const { id: _id, ...raceData } = race as Race;
+
     const response = await fetch(`/api/races?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(race)
+      body: JSON.stringify({ id, ...raceData })  // idをボディに含める
     });
     if (!response.ok) {
       throw new Error(`Failed to update race: ${response.statusText}`);
