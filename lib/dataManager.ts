@@ -367,6 +367,43 @@ export async function deleteRace(id: string): Promise<void> {
 }
 
 // ============================================================================
+// Sessions and Results Functions
+// ============================================================================
+
+/**
+ * セッションを取得
+ */
+export async function fetchSessions(raceId: string) {
+  try {
+    const response = await fetch(`/api/sessions?raceId=${raceId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch sessions: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching sessions:', error);
+    throw error;
+  }
+}
+
+/**
+ * 結果を取得
+ */
+export async function fetchResults(sessionId: number) {
+  try {
+    const response = await fetch(`/api/results?sessionId=${sessionId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch results: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching results:', error);
+    throw error;
+  }
+}
+
+
+// ============================================================================
 // Calculation Functions (unchanged - work with any data source)
 // ============================================================================
 
