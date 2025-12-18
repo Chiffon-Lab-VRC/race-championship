@@ -57,6 +57,21 @@ export async function PUT(request: NextRequest) {
         const body = await request.json();
         const { id, ...updates } = body;
 
+        // チーム移籍の場合、過去の全レース結果のteamIdも更新
+        if (updates.teamId) {
+            // まず、現在のドライバー情報を取得して移籍かどうか確認
+            const currentDriver = await db.select().from(drivers).where(eq(drivers.id, id)).limit(1);
+
+            if (currentDriver.length > 0 && currentDriver[0].teamId !== updates.teamId) {
+                // チームが変更される場合、race_resultsのteam_idも更新
+                await db.execute(
+                    `UPDATE race_results SET team_id = ? WHERE driver_id = ?`,
+                    [updates.teamId, id]
+                );
+                console.log(`Updated race results team_id for driver ${id} to ${updates.teamId}`);
+            }
+        }
+
         const updated = await db
             .update(drivers)
             .set(updates)
