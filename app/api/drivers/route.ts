@@ -65,7 +65,6 @@ export async function PUT(request: NextRequest) {
             if (currentDriver.length > 0 && currentDriver[0].teamId !== updates.teamId) {
                 // チームが変更される場合、race_resultsのteam_idも更新
                 // Drizzle ORMを使用してrace_resultsを更新
-                const { raceResults } = await import('@/lib/db/schema');
                 await db
                     .update(raceResults)
                     .set({ teamId: updates.teamId })
