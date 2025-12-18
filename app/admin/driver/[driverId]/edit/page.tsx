@@ -2,7 +2,7 @@
 
 export const runtime = 'edge';
 
-import { getData, saveData } from '@/lib/dataManager';
+import { fetchDrivers, fetchTeams, createDriver, updateDriver, deleteDriver, type Driver, type Team } from '@/lib/dataManager';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -14,7 +14,8 @@ export default function DriverEditPage() {
     const driverId = params.driverId as string;
     const isNew = driverId === 'new';
 
-    const [data, setData] = useState(getData());
+    const [teams, setTeams] = useState<Team[]>([]);
+    const [loading, setLoading] = useState(true);
     const [isUploading, setIsUploading] = useState(false);
     const [formData, setFormData] = useState({
         id: '',
@@ -27,16 +28,30 @@ export default function DriverEditPage() {
     });
 
     useEffect(() => {
-        if (!isNew) {
-            const currentData = getData();
-            const driver = currentData.drivers.find(d => d.id === driverId);
-            if (driver) {
-                setFormData({
-                    ...driver,
-                    photoUrl: driver.photoUrl || ''
-                });
+        async function loadData() {
+            try {
+                const [driversData, teamsData] = await Promise.all([
+                    fetchDrivers(),
+                    fetchTeams()
+                ]);
+                setTeams(teamsData);
+
+                if (!isNew) {
+                    const driver = driversData.find(d => d.id === driverId);
+                    if (driver) {
+                        setFormData({
+                            ...driver,
+                            photoUrl: driver.photoUrl || ''
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load data:', err);
+            } finally {
+                setLoading(false);
             }
         }
+        loadData();
     }, [driverId, isNew]);
 
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,58 +106,49 @@ export default function DriverEditPage() {
         setFormData({ ...formData, photoUrl: '' });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const currentData = getData();
 
-        if (isNew) {
-            // 新規追加
-            const newDriver = {
-                ...formData,
-                id: formData.id || formData.name.toLowerCase().replace(/\s+/g, '-'),
-                number: Number(formData.number)
-            };
-            currentData.drivers.push(newDriver);
-        } else {
-            // 編集
-            const index = currentData.drivers.findIndex(d => d.id === driverId);
-            if (index !== -1) {
-                const oldTeamId = currentData.drivers[index].teamId;
-                const newTeamId = formData.teamId;
-
-                currentData.drivers[index] = {
+        try {
+            if (isNew) {
+                // 新規追加
+                const newDriver = {
+                    name: formData.name,
+                    number: Number(formData.number),
+                    teamId: formData.teamId,
+                    nationality: formData.nationality,
+                    bio: formData.bio,
+                    photoUrl: formData.photoUrl
+                };
+                await createDriver(newDriver);
+                alert('ドライバーを追加しました！');
+                router.push('/admin');
+            } else {
+                // 更新
+                await updateDriver(driverId, {
                     ...formData,
                     number: Number(formData.number)
-                };
-
-                // チーム変更があった場合、全レース結果のteamIdを更新
-                if (oldTeamId !== newTeamId) {
-                    currentData.races.forEach(race => {
-                        race.sessions.forEach(session => {
-                            session.results.forEach(result => {
-                                if (result.driverId === driverId) {
-                                    result.teamId = newTeamId;
-                                }
-                            });
-                        });
-                    });
-                }
+                });
+                alert('ドライバーを更新しました！');
+                router.push('/admin');
             }
+        } catch (error) {
+            console.error('Failed to save driver:', error);
+            alert('保存に失敗しました');
         }
-
-        saveData(currentData);
-        alert(isNew ? 'ドライバーを追加しました！' : 'ドライバーを更新しました！');
-        router.push('/admin');
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (!confirm('本当にこのドライバーを削除しますか？')) return;
 
-        const currentData = getData();
-        currentData.drivers = currentData.drivers.filter(d => d.id !== driverId);
-        saveData(currentData);
-        alert('ドライバーを削除しました！');
-        router.push('/admin');
+        try {
+            await deleteDriver(driverId);
+            alert('ドライバーを削除しました！');
+            router.push('/admin');
+        } catch (error) {
+            console.error('Failed to delete driver:', error);
+            alert('削除に失敗しました');
+        }
     };
 
     return (
@@ -197,7 +203,7 @@ export default function DriverEditPage() {
                             required
                         >
                             <option value="">チームを選択してください</option>
-                            {data.teams.map((team) => (
+                            {teams.map((team) => (
                                 <option key={team.id} value={team.id}>
                                     {team.name}
                                 </option>

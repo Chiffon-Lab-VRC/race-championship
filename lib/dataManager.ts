@@ -105,12 +105,271 @@ export function saveData(data: ChampionshipData): void {
 }
 
 /**
- * データをリセット（初期データに戻す）
+ * データをリセット(初期データに戻す)
  */
 export function resetData(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(STORAGE_KEY);
 }
+
+// ============================================================================
+// D1 API Functions (New - for gradual migration)
+// ============================================================================
+
+/**
+ * D1からドライバーデータを取得
+ */
+export async function fetchDrivers(): Promise<Driver[]> {
+  try {
+    const response = await fetch('/api/drivers');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch drivers: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching drivers:', error);
+    throw error;
+  }
+}
+
+/**
+ * D1からチームデータを取得
+ */
+export async function fetchTeams(): Promise<Team[]> {
+  try {
+    const response = await fetch('/api/teams');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch teams: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching teams:', error);
+    throw error;
+  }
+}
+
+/**
+ * D1からレースデータを取得
+ */
+export async function fetchRaces(): Promise<Race[]> {
+  try {
+    const response = await fetch('/api/races');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch races: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching races:', error);
+    throw error;
+  }
+}
+
+/**
+ * D1から全データを取得
+ */
+export async function fetchAllData(): Promise<ChampionshipData> {
+  try {
+    const [drivers, teams, races] = await Promise.all([
+      fetchDrivers(),
+      fetchTeams(),
+      fetchRaces()
+    ]);
+
+    return {
+      drivers,
+      teams,
+      races,
+      pointsSystem: initialData.pointsSystem
+    };
+  } catch (error) {
+    console.error('Error fetching all data:', error);
+    throw error;
+  }
+}
+
+// ============================================================================
+// Calculation Functions (unchanged - work with any data source)
+// ============================================================================
+
+// ============================================================================
+// D1 API Mutation Functions (Create, Update, Delete)
+// ============================================================================
+
+/**
+ * ドライバーを作成
+ */
+export async function createDriver(driver: Omit<Driver, 'id'>): Promise<Driver> {
+  try {
+    const response = await fetch('/api/drivers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(driver)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create driver: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating driver:', error);
+    throw error;
+  }
+}
+
+/**
+ * ドライバーを更新
+ */
+export async function updateDriver(id: string, driver: Partial<Driver>): Promise<Driver> {
+  try {
+    const response = await fetch(`/api/drivers?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(driver)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update driver: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating driver:', error);
+    throw error;
+  }
+}
+
+/**
+ * ドライバーを削除
+ */
+export async function deleteDriver(id: string): Promise<void> {
+  try {
+    const response = await fetch(`/api/drivers?id=${id}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete driver: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error deleting driver:', error);
+    throw error;
+  }
+}
+
+/**
+ * チームを作成
+ */
+export async function createTeam(team: Omit<Team, 'id'>): Promise<Team> {
+  try {
+    const response = await fetch('/api/teams', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(team)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create team: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating team:', error);
+    throw error;
+  }
+}
+
+/**
+ * チームを更新
+ */
+export async function updateTeam(id: string, team: Partial<Team>): Promise<Team> {
+  try {
+    const response = await fetch(`/api/teams?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(team)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update team: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating team:', error);
+    throw error;
+  }
+}
+
+/**
+ * チームを削除
+ */
+export async function deleteTeam(id: string): Promise<void> {
+  try {
+    const response = await fetch(`/api/teams?id=${id}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete team: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error deleting team:', error);
+    throw error;
+  }
+}
+
+/**
+ * レースを作成
+ */
+export async function createRace(race: Omit<Race, 'id'>): Promise<Race> {
+  try {
+    const response = await fetch('/api/races', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(race)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create race: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating race:', error);
+    throw error;
+  }
+}
+
+/**
+ * レースを更新
+ */
+export async function updateRaceData(id: string, race: Partial<Race>): Promise<Race> {
+  try {
+    const response = await fetch(`/api/races?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(race)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update race: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating race:', error);
+    throw error;
+  }
+}
+
+/**
+ * レースを削除
+ */
+export async function deleteRace(id: string): Promise<void> {
+  try {
+    const response = await fetch(`/api/races?id=${id}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete race: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error deleting race:', error);
+    throw error;
+  }
+}
+
+// ============================================================================
+// Calculation Functions (unchanged - work with any data source)
+// ============================================================================
+
 
 /**
  * ドライバーズチャンピオンシップランキングを計算
@@ -241,9 +500,9 @@ export function updateRace(data: ChampionshipData, raceId: string, updatedRace: 
 }
 
 /**
- * レースを削除
+ * レースを削除 (deprecated helper - use deleteRace API function instead)
  */
-export function deleteRace(data: ChampionshipData, raceId: string): ChampionshipData {
+export function deleteRaceFromData(data: ChampionshipData, raceId: string): ChampionshipData {
   return {
     ...data,
     races: data.races.filter(r => r.id !== raceId),

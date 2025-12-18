@@ -1,10 +1,36 @@
 'use client';
 
-import { getData, calculateDriverStandings, calculateTeamStandings } from '@/lib/dataManager';
+import { fetchAllData, calculateDriverStandings, calculateTeamStandings, type ChampionshipData } from '@/lib/dataManager';
+import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
 export default function ChampionshipPage() {
-    const data = getData();
+    const [data, setData] = useState<ChampionshipData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const championshipData = await fetchAllData();
+                setData(championshipData);
+            } catch (err) {
+                console.error('Failed to load data:', err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
+
+    if (loading || !data) {
+        return (
+            <div className="container">
+                <h1>CHAMPIONSHIP STANDINGS</h1>
+                <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</p>
+            </div>
+        );
+    }
+
     const driverStandings = calculateDriverStandings(data);
     const teamStandings = calculateTeamStandings(data);
 

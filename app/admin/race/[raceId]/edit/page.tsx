@@ -2,7 +2,7 @@
 
 export const runtime = 'edge';
 
-import { getData, saveData, updateRace, addRace } from '@/lib/dataManager';
+import { fetchRaces, createRace, updateRaceData, type Race } from '@/lib/dataManager';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Race, RaceSession, RaceResult } from '@/lib/dataManager';
@@ -42,19 +42,31 @@ export default function RaceEditPage() {
         return data.races.find(r => r.id === raceId) || data.races[0];
     });
 
-    const handleSave = () => {
-        let updatedData = data;
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-        if (isNew) {
-            updatedData = addRace(data, race);
-        } else {
-            updatedData = updateRace(data, raceId, race);
+        try {
+            const raceData: Partial<Race> = {
+                round: race.round,
+                name: race.name,
+                circuit: race.circuit,
+                date: race.date,
+                country: race.country,
+                sessions: race.sessions
+            };
+
+            if (isNew) {
+                await createRace(raceData as Omit<Race, 'id'>);
+                alert('レースを追加しました！');
+            } else {
+                await updateRaceData(raceId, raceData);
+                alert('レースを更新しました！');
+            }
+            router.push('/admin');
+        } catch (error) {
+            console.error('Failed to save race:', error);
+            alert('保存に失敗しました');
         }
-
-        saveData(updatedData);
-        setData(updatedData);
-        alert('保存しました！');
-        router.push('/admin');
     };
 
     const handleResultChange = (sessionIndex: number, resultIndex: number, field: keyof RaceResult, value: any) => {

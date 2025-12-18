@@ -1,11 +1,52 @@
 'use client';
 
-import { getData, calculateDriverStandings } from '@/lib/dataManager';
+export const runtime = 'edge';
+
+import { fetchAllData, calculateDriverStandings, type ChampionshipData } from '@/lib/dataManager';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
 
 export default function DriversPage() {
-  const data = getData();
+  const [data, setData] = useState<ChampionshipData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const championshipData = await fetchAllData();
+        setData(championshipData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+        setError('データの読み込みに失敗しました');
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <h1>DRIVERS</h1>
+        <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="container">
+        <h1>DRIVERS</h1>
+        <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--racing-red)' }}>
+          {error || 'データが見つかりません'}
+        </p>
+      </div>
+    );
+  }
+
   const standings = calculateDriverStandings(data);
 
   return (

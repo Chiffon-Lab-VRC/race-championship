@@ -2,18 +2,42 @@
 
 export const runtime = 'edge';
 
-import { getData, getDriverById, getTeamById } from '@/lib/dataManager';
+import { fetchAllData, getDriverById, getTeamById, type ChampionshipData } from '@/lib/dataManager';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
 
 export default function RaceDetailPage() {
   const params = useParams();
   const raceId = params.raceId as string;
-  const data = getData();
-  const race = data.races.find(r => r.id === raceId);
+  const [data, setData] = useState<ChampionshipData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'podium' | 'table'>('podium');
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const championshipData = await fetchAllData();
+        setData(championshipData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading || !data) {
+    return (
+      <div className="container">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
+  const race = data.races.find(r => r.id === raceId);
 
   if (!race) {
     return (

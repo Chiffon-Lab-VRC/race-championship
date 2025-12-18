@@ -1,11 +1,38 @@
 'use client';
 
-import { getData } from '@/lib/dataManager';
+import { fetchAllData, calculateTeamStandings, type ChampionshipData } from '@/lib/dataManager';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
 
 export default function TeamsPage() {
-  const data = getData();
+  const [data, setData] = useState<ChampionshipData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const championshipData = await fetchAllData();
+        setData(championshipData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading || !data) {
+    return (
+      <div className="container">
+        <h1>TEAMS</h1>
+        <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</p>
+      </div>
+    );
+  }
+
+  const standings = calculateTeamStandings(data);
 
   return (
     <div className="container">

@@ -1,11 +1,38 @@
 'use client';
 
-import Link from "next/link";
-import { getData, calculateDriverStandings, calculateTeamStandings } from '@/lib/dataManager';
+import { fetchAllData, calculateDriverStandings, calculateTeamStandings, type ChampionshipData } from '@/lib/dataManager';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './page.module.css';
+import './globals.css';
 
 export default function Home() {
-  const data = getData();
+  const [data, setData] = useState<ChampionshipData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const championshipData = await fetchAllData();
+        setData(championshipData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading || !data) {
+    return (
+      <div className="container">
+        <h1>FIA RACE CHAMPIONSHIP</h1>
+        <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</p>
+      </div>
+    );
+  }
+
   const driverStandings = calculateDriverStandings(data).slice(0, 5);
   const teamStandings = calculateTeamStandings(data).slice(0, 3);
   const latestRace = data.races[data.races.length - 1];

@@ -2,7 +2,7 @@
 
 export const runtime = 'edge';
 
-import { getData, saveData } from '@/lib/dataManager';
+import { fetchTeams, createTeam, updateTeam, deleteTeam } from '@/lib/dataManager';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -14,56 +14,72 @@ export default function TeamEditPage() {
     const teamId = params.teamId as string;
     const isNew = teamId === 'new';
 
+    const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
         id: '',
         name: '',
         shortName: '',
-        color: '#E60012',
+        color: '#FF0000',
         description: ''
     });
 
     useEffect(() => {
-        if (!isNew) {
-            const data = getData();
-            const team = data.teams.find(t => t.id === teamId);
-            if (team) {
-                setFormData(team);
+        async function loadData() {
+            try {
+                if (!isNew) {
+                    const teams = await fetchTeams();
+                    const team = teams.find(t => t.id === teamId);
+                    if (team) {
+                        setFormData(team);
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load team:', err);
+            } finally {
+                setLoading(false);
             }
         }
+        loadData();
     }, [teamId, isNew]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const data = getData();
 
-        if (isNew) {
-            // 新規追加
-            const newTeam = {
-                ...formData,
-                id: formData.id || formData.shortName.toLowerCase().replace(/\s+/g, '-')
-            };
-            data.teams.push(newTeam);
-        } else {
-            // 編集
-            const index = data.teams.findIndex(t => t.id === teamId);
-            if (index !== -1) {
-                data.teams[index] = { ...formData };
+        try {
+            if (isNew) {
+                // 新規追加
+                const newTeam = {
+                    name: formData.name,
+                    shortName: formData.shortName,
+                    color: formData.color,
+                    description: formData.description
+                };
+                await createTeam(newTeam);
+                alert('チームを追加しました！');
+                router.push('/admin');
+            } else {
+                // 更新
+                await updateTeam(teamId, formData);
+                alert('チームを更新しました！');
+                router.push('/admin');
             }
+        } catch (error) {
+            console.error('Failed to save team:', error);
+            alert('保存に失敗しました');
         }
-
-        saveData(data);
-        alert(isNew ? 'チームを追加しました！' : 'チームを更新しました！');
-        router.push('/admin');
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (!confirm('本当にこのチームを削除しますか？')) return;
 
-        const data = getData();
-        data.teams = data.teams.filter(t => t.id !== teamId);
-        saveData(data);
-        alert('チームを削除しました！');
-        router.push('/admin');
+        try {
+            await deleteTeam(teamId);
+            alert('チームを削除しました！');
+            router.push('/admin');
+        } catch (error) {
+            console.error('Failed to delete team:', error);
+            alert('削除に失敗しました');
+        }
     };
 
     return (

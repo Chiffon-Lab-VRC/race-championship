@@ -1,20 +1,36 @@
 'use client';
 
-import { getData, saveData, resetData } from '@/lib/dataManager';
+import { fetchAllData, type ChampionshipData } from '@/lib/dataManager';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
 export default function AdminPage() {
-  const [data, setData] = useState(getData());
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [data, setData] = useState<ChampionshipData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleReset = () => {
-    resetData();
-    setData(getData());
-    setShowResetConfirm(false);
-    alert('データをリセットしました！');
-  };
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const championshipData = await fetchAllData();
+        setData(championshipData);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading || !data) {
+    return (
+      <div className="container">
+        <h1>ADMIN PANEL</h1>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   const handleExport = () => {
     const dataStr = JSON.stringify(data, null, 2);
@@ -110,32 +126,9 @@ export default function AdminPage() {
           <p>データのインポート・エクスポート・リセット</p>
 
           <div className={styles.dataActions}>
-            <button onClick={handleExport} className="btn-racing" style={{ marginBottom: '1rem' }}>
+            <button onClick={handleExport} className="btn-racing">
               データをエクスポート
             </button>
-
-            <button
-              onClick={() => setShowResetConfirm(!showResetConfirm)}
-              className="btn-secondary"
-            >
-              データをリセット
-            </button>
-
-            {showResetConfirm && (
-              <div className={styles.confirmDialog}>
-                <p style={{ color: 'var(--racing-red)', fontWeight: 'bold', marginBottom: '1rem' }}>
-                  ⚠️ 警告：すべてのデータが初期状態に戻ります。
-                </p>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <button onClick={handleReset} className="btn-racing">
-                    リセット実行
-                  </button>
-                  <button onClick={() => setShowResetConfirm(false)} className="btn-secondary">
-                    キャンセル
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
