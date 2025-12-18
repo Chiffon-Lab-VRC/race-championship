@@ -1,0 +1,229 @@
+.driverHeader {
+    position: relative;
+    padding: 4rem 2rem 3rem;
+    margin-bottom: 4rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.headerBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--team-color) 0%, rgba(0, 0, 0, 0.8) 100%);
+    opacity: 0.3;
+}
+
+.headerContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.photoSection {
+    flex-shrink: 0;
+    width: 300px;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.driverPhoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photoPlaceholder {
+    font-size: 10rem;
+    opacity: 0.3;
+}
+
+.infoSection {
+    flex: 1;
+}
+
+.driverNumber {
+    font-family: var(--font-racing);
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--team-color);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.driverName {
+    font-family: var(--font-racing);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.teamName {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--team-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+}
+
+.bio {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin-bottom: 2rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.statCard {
+    background: var(--bg-tertiary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid var(--racing-gray);
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.statValue {
+    font-family: var(--font-racing);
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--team-color);
+    display: block;
+}
+
+.section {
+    margin-bottom: 4rem;
+}
+
+.sectionTitle {
+    font-size: 1.75rem;
+    color: var(--racing-red);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.racesList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.raceCard {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--racing-gray);
+}
+
+.raceCard h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.raceCard h3 a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.raceCard h3 a:hover {
+    color: var(--racing-red);
+}
+
+.raceInfo {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.resultsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.resultItem {
+    background: var(--bg-tertiary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.position {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--racing-red);
+}
+
+.sessionName {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.points {
+    font-family: var(--font-racing);
+    font-weight: 700;
+    color: var(--racing-silver);
+}
+
+@media (max-width: 768px) {
+    .headerContent {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .photoSection {
+        width: 250px;
+        height: 333px;
+    }
+
+    .driverNumber {
+        font-size: 4rem;
+    }
+
+    .driverName {
+        font-size: 2.5rem;
+    }
+
+    .teamName {
+        font-size: 1.25rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

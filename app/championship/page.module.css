@@ -1,0 +1,12 @@
+.championshipSection {
+    margin-bottom: 3rem;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.championshipSection :global(h2) {
+    color: var(--racing-silver);
+    margin-bottom: 1.5rem;
+}

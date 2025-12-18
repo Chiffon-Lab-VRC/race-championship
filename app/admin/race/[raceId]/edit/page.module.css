@@ -1,0 +1,88 @@
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-family: var(--font-racing);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.formInput {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--racing-gray);
+    color: var(--text-primary);
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: var(--racing-red);
+}
+
+.formInputSmall {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--racing-gray);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.formInputSmall:focus {
+    outline: none;
+    border-color: var(--racing-red);
+}
+
+.formInputMedium {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--racing-gray);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.formInputMedium:focus {
+    outline: none;
+    border-color: var(--racing-red);
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}

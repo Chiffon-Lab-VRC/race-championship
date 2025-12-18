@@ -1,0 +1,285 @@
+.raceHeaderWrapper {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ビューモード切り替えトグル */
+.viewToggle {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 2px solid var(--racing-gray);
+    align-self: center;
+}
+
+.toggleBtn {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid transparent;
+    border-radius: 6px;
+    font-family: var(--font-racing);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.toggleBtn:hover {
+    color: white;
+    border-color: var(--racing-gray);
+}
+
+.toggleBtn.active {
+    background: var(--racing-red);
+    color: white;
+    border-color: var(--racing-red);
+    box-shadow: 0 4px 12px rgba(230, 0, 18, 0.4);
+}
+
+.sessionSection {
+    margin-bottom: 4rem;
+}
+
+.sessionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    color: var(--racing-silver);
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+/* ポディウム表示 */
+.podium {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.podiumCard {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--racing-gray);
+    transition: all 0.3s ease;
+}
+
+.podiumCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+}
+
+/* ポディウムの色分け */
+.position1 {
+    border-color: #FFD700;
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+    transform: scale(1.08);
+    z-index: 2;
+}
+
+.position1:hover {
+    transform: scale(1.08) translateY(-8px);
+}
+
+.position2 {
+    border-color: #C0C0C0;
+    box-shadow: 0 8px 24px rgba(192, 192, 192, 0.3);
+}
+
+.position3 {
+    border-color: #CD7F32;
+    box-shadow: 0 8px 24px rgba(205, 127, 50, 0.3);
+}
+
+.podiumPhoto {
+    position: relative;
+    height: 300px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.podiumPhoto img {
+    max-height: 280px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.8));
+}
+
+.podiumPhotoPlaceholder {
+    font-size: 10rem;
+    opacity: 0.2;
+}
+
+.podiumRank {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: var(--font-racing);
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.position1 .podiumRank {
+    color: #FFD700;
+}
+
+.position2 .podiumRank {
+    color: #C0C0C0;
+}
+
+.position3 .podiumRank {
+    color: #CD7F32;
+}
+
+.podiumInfo {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.podiumDriverName {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.podiumTeamName {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.podiumPoints {
+    font-family: var(--font-racing);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--racing-red);
+}
+
+/* 4位以降のリスト */
+.resultsListWrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.resultsList {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 2px solid var(--racing-gray);
+    overflow: hidden;
+}
+
+.resultRow {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px 120px;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--racing-gray);
+    transition: background 0.2s ease;
+}
+
+.resultRow:last-child {
+    border-bottom: none;
+}
+
+.resultRow:hover {
+    background: var(--racing-dark-gray);
+}
+
+.resultPosition {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--racing-silver);
+    text-align: center;
+}
+
+.resultDriver {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.resultDriverName {
+    color: white;
+}
+
+.resultTeam {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.resultPoints {
+    font-family: var(--font-racing);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--racing-red);
+    text-align: right;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .podium {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .podiumPhoto {
+        height: 250px;
+    }
+
+    .podiumPhoto img {
+        max-height: 230px;
+    }
+
+    .podiumRank {
+        font-size: 3.5rem;
+    }
+
+    .resultRow {
+        grid-template-columns: 60px 1fr 100px;
+        gap: 1rem;
+    }
+
+    .resultTeam {
+        display: none;
+    }
+
+    .resultPoints {
+        font-size: 1rem;
+    }
+}
+
+/* ファステストラップバッジ */
+.fastestLapBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    background: #9333ea;
+    border-radius: 6px;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+}

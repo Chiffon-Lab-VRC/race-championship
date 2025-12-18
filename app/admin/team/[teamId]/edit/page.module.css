@@ -1,0 +1,93 @@
+.editForm {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formSection {
+    margin-bottom: 2rem;
+}
+
+.formSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--racing-red);
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.required {
+    color: var(--racing-red);
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--racing-gray);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: var(--racing-red);
+}
+
+.formGroup small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.colorInputGroup {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.colorPicker {
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    border: 2px solid var(--racing-gray);
+    border-radius: 4px;
+}
+
+.colorInput {
+    width: 150px;
+}
+
+.colorPreview {
+    width: 100px;
+    height: 50px;
+    border: 2px solid var(--racing-gray);
+    border-radius: 4px;
+}
+
+.formActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .formActions {
+        flex-direction: column;
+    }
+}

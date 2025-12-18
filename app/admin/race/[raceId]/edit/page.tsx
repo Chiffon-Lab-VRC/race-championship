@@ -1,0 +1,229 @@
+'use client';
+
+import { getData, saveData, updateRace, addRace } from '@/lib/dataManager';
+import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import type { Race, RaceSession, RaceResult } from '@/lib/dataManager';
+import styles from './page.module.css';
+
+export default function RaceEditPage() {
+    const params = useParams();
+    const router = useRouter();
+    const raceId = params.raceId as string;
+    const isNew = raceId === 'new';
+
+    const [data, setData] = useState(getData());
+    const [race, setRace] = useState<Race>(() => {
+        if (isNew) {
+            const nextRound = data.races.length + 1;
+            return {
+                id: `rd${nextRound}-tbd`,
+                round: nextRound,
+                name: `Rd.${nextRound} TBD`,
+                circuit: '',
+                date: new Date().toISOString().split('T')[0],
+                country: 'JPN',
+                sessions: [{
+                    sessionType: 'RACE 1',
+                    name: 'RACE 1',
+                    results: data.drivers.map((driver, index) => ({
+                        position: index + 1,
+                        driverId: driver.id,
+                        teamId: driver.teamId,
+                        laps: 0,
+                        totalTime: '00:00:000',
+                        points: 0,
+                    }))
+                }]
+            };
+        }
+        return data.races.find(r => r.id === raceId) || data.races[0];
+    });
+
+    const handleSave = () => {
+        let updatedData = data;
+
+        if (isNew) {
+            updatedData = addRace(data, race);
+        } else {
+            updatedData = updateRace(data, raceId, race);
+        }
+
+        saveData(updatedData);
+        setData(updatedData);
+        alert('保存しました！');
+        router.push('/admin');
+    };
+
+    const handleResultChange = (sessionIndex: number, resultIndex: number, field: keyof RaceResult, value: any) => {
+        const newRace = { ...race };
+        const result = newRace.sessions[sessionIndex].results[resultIndex];
+        (result as any)[field] = value;
+
+        // ポイント自動計算
+        if (field === 'position') {
+            const position = parseInt(value);
+            result.points = data.pointsSystem[position.toString()] || 0;
+        }
+
+        setRace(newRace);
+    };
+
+    const addSession = () => {
+        const newSession: RaceSession = {
+            sessionType: `RACE ${race.sessions.length + 1}`,
+            name: `RACE ${race.sessions.length + 1}`,
+            results: data.drivers.map((driver, index) => ({
+                position: index + 1,
+                driverId: driver.id,
+                teamId: driver.teamId,
+                laps: 0,
+                totalTime: '00:00:000',
+                points: 0,
+            }))
+        };
+
+        setRace({
+            ...race,
+            sessions: [...race.sessions, newSession]
+        });
+    };
+
+    return (
+        <div className="container">
+            <h1>{isNew ? '新規レース追加' : 'レース編集'}</h1>
+
+            {/* レース基本情報 */}
+            <div className="racing-card" style={{ marginBottom: '2rem' }}>
+                <h2>レース情報</h2>
+                <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                        <label>レース名</label>
+                        <input
+                            type="text"
+                            value={race.name}
+                            onChange={(e) => setRace({ ...race, name: e.target.value })}
+                            className={styles.formInput}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>サーキット</label>
+                        <input
+                            type="text"
+                            value={race.circuit}
+                            onChange={(e) => setRace({ ...race, circuit: e.target.value })}
+                            className={styles.formInput}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>開催日</label>
+                        <input
+                            type="date"
+                            value={race.date}
+                            onChange={(e) => setRace({ ...race, date: e.target.value })}
+                            className={styles.formInput}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>ラウンド</label>
+                        <input
+                            type="number"
+                            value={race.round}
+                            onChange={(e) => setRace({ ...race, round: parseInt(e.target.value) })}
+                            className={styles.formInput}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* セッション結果 */}
+            {race.sessions.map((session, sessionIndex) => (
+                <div key={sessionIndex} className="racing-card" style={{ marginBottom: '2rem' }}>
+                    <h2>{session.sessionType}</h2>
+                    <div className={styles.tableWrapper}>
+                        <table className="racing-table">
+                            <thead>
+                                <tr>
+                                    <th>順位</th>
+                                    <th>ドライバー</th>
+                                    <th>周回数</th>
+                                    <th>タイム</th>
+                                    <th>ポイント</th>
+                                    <th>FL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {session.results.map((result, resultIndex) => {
+                                    const driver = data.drivers.find(d => d.id === result.driverId);
+                                    return (
+                                        <tr key={resultIndex}>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    value={result.position}
+                                                    onChange={(e) => handleResultChange(sessionIndex, resultIndex, 'position', e.target.value)}
+                                                    className={styles.formInputSmall}
+                                                    min="1"
+                                                />
+                                            </td>
+                                            <td>{driver?.name}</td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    value={result.laps}
+                                                    onChange={(e) => handleResultChange(sessionIndex, resultIndex, 'laps', parseInt(e.target.value))}
+                                                    className={styles.formInputSmall}
+                                                    min="0"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="text"
+                                                    value={result.totalTime}
+                                                    onChange={(e) => handleResultChange(sessionIndex, resultIndex, 'totalTime', e.target.value)}
+                                                    className={styles.formInputMedium}
+                                                    placeholder="HH:MM:SSS"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    value={result.points}
+                                                    onChange={(e) => handleResultChange(sessionIndex, resultIndex, 'points', parseInt(e.target.value))}
+                                                    className={styles.formInputSmall}
+                                                    min="0"
+                                                />
+                                            </td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={result.fastestLap || false}
+                                                    onChange={(e) => handleResultChange(sessionIndex, resultIndex, 'fastestLap', e.target.checked)}
+                                                    style={{ cursor: 'pointer', width: '20px', height: '20px' }}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ))}
+
+            {/* アクション */}
+            <div className={styles.actions}>
+                <button onClick={addSession} className="btn-secondary">
+                    + セッション追加
+                </button>
+                <button onClick={handleSave} className="btn-racing">
+                    保存
+                </button>
+                <button onClick={() => router.push('/admin')} className="btn-secondary">
+                    キャンセル
+                </button>
+            </div>
+
+        </div>
+    );
+}

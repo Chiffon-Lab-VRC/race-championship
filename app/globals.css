@@ -1,42 +1,327 @@
+/* ========================================
+   レーシングチャンピオンシップ デザインシステム
+   カラー: レーシングレッド × ブラック × グレー
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* カラーパレット */
+  --racing-red: #E60012;
+  --racing-dark-red: #B30010;
+  --racing-black: #1A1A1A;
+  --racing-dark-gray: #2A2A2A;
+  --racing-gray: #3A3A3A;
+  --racing-light-gray: #4A4A4A;
+  --racing-silver: #C0C0C0;
+  --racing-white: #FFFFFF;
+
+  /* テキストカラー */
+  --text-primary: #FFFFFF;
+  --text-secondary: #C0C0C0;
+  --text-on-red: #FFFFFF;
+
+  /* 背景カラー */
+  --bg-primary: #1A1A1A;
+  --bg-secondary: #2A2A2A;
+  --bg-tertiary: #3A3A3A;
+
+  /* フォント */
+  --font-racing: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover {
+  color: var(--racing-red);
+}
+
+/* ヘッダー・タイトルスタイル */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-racing);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* レーシングテーブルスタイル */
+.racing-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.racing-table thead {
+  background: var(--racing-red);
+  color: var(--text-on-red);
+  font-family: var(--font-racing);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.racing-table thead th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.racing-table thead th:first-child {
+  text-align: center;
+}
+
+.racing-table tbody tr {
+  border-bottom: 1px solid var(--racing-gray);
+  transition: background 0.2s ease;
+}
+
+.racing-table tbody tr:hover {
+  background: var(--racing-dark-gray);
+}
+
+.racing-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.racing-table tbody td {
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.racing-table tbody td:first-child {
+  font-weight: 700;
+  color: var(--racing-silver);
+  font-family: var(--font-racing);
+  text-align: center;
+}
+
+/* 順位カラー */
+.racing-table .position-1 td:first-child {
+  color: #FFD700;
+  /* ゴールド */
+}
+
+.racing-table .position-2 td:first-child {
+  color: #C0C0C0;
+  /* シルバー */
+}
+
+.racing-table .position-3 td:first-child {
+  color: #CD7F32;
+  /* ブロンズ */
+}
+
+/* レーシングヘッダー（レース情報） */
+.race-header {
+  background: var(--racing-red);
+  color: var(--text-on-red);
+  padding: 1.5rem;
+  border-radius: 8px 8px 0 0;
+  font-family: var(--font-racing);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 1.25rem;
+}
+
+.race-header .race-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.race-header .race-circuit {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ボタンスタイル */
+.btn-racing {
+  background: var(--racing-red);
+  color: var(--text-on-red);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-racing);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(230, 0, 18, 0.3);
+  display: inline-block;
+  text-align: center;
+  min-width: 180px;
+}
+
+.btn-racing:hover {
+  background: var(--racing-dark-red);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(230, 0, 18, 0.5);
+}
+
+.btn-racing:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(230, 0, 18, 0.4);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-racing);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  text-align: center;
+  min-width: 180px;
+}
+
+.btn-secondary:hover {
+  background: var(--racing-light-gray);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+.btn-secondary:active {
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* カードスタイル */
+.racing-card {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid var(--racing-gray);
+}
+
+.racing-card:hover {
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.3);
+  border-color: var(--racing-red);
+}
+
+/* 削除ボタン */
+.btn-danger {
+  padding: 0.875rem 2rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: var(--font-racing);
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* コンテナ */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .racing-table thead th,
+  .racing-table tbody td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .racing-card {
+    padding: 1.5rem;
+  }
+
+  .race-header {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .race-header .race-name {
+    font-size: 1.25rem;
   }
 }

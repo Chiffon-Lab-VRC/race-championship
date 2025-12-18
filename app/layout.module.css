@@ -1,0 +1,86 @@
+.mainNav {
+    background: var(--racing-red);
+    padding: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navLogo {
+    font-family: var(--font-racing);
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--text-on-red);
+}
+
+.navLinks {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    font-family: var(--font-racing);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.navLinks a {
+    color: var(--text-on-red);
+    transition: opacity 0.2s ease;
+}
+
+.navLinks a:hover {
+    opacity: 0.8;
+}
+
+.navAdmin {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.navLogout {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-on-red);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: var(--font-racing);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navLogout:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.mainContent {
+    min-height: calc(100vh - 80px);
+}
+
+@media (max-width: 768px) {
+    .navContainer {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .navLinks {
+        gap: 1rem;
+        font-size: 0.8rem;
+    }
+}

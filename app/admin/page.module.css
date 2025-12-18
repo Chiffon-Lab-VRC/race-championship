@@ -1,0 +1,110 @@
+.adminSection {
+    margin-bottom: 3rem;
+}
+
+.adminSection h2 {
+    color: var(--racing-red);
+    margin-bottom: 1rem;
+}
+
+.adminSection p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.raceList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.raceItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    border: 1px solid var(--racing-gray);
+    transition: border-color 0.2s ease;
+}
+
+.raceItem:hover {
+    border-color: var(--racing-red);
+}
+
+.raceDetail {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.btnSmall {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    min-width: 120px;
+}
+
+.dataActions {
+    display: flex;
+    flex-direction: column;
+}
+
+.confirmDialog {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    border: 2px solid var(--racing-red);
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.statItem {
+    text-align: center;
+    padding: 2rem;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 2px solid var(--racing-gray);
+    transition: all 0.3s ease;
+}
+
+.statItem:hover {
+    border-color: var(--racing-red);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(230, 0, 18, 0.2);
+}
+
+.statNumber {
+    font-family: var(--font-racing);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--racing-red);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .raceItem {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}

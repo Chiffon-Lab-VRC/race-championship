@@ -1,0 +1,231 @@
+{
+  "drivers": [
+    {
+      "id": "chiffon-inugasaki",
+      "name": "Chiffon Inugasaki",
+      "number": 1,
+      "teamId": "kci-racing",
+      "nationality": "JPN",
+      "bio": "トップドライバー"
+    },
+    {
+      "id": "tsubasa-sekine",
+      "name": "Tsubasa Sekine",
+      "number": 2,
+      "teamId": "secracing-team",
+      "nationality": "JPN",
+      "bio": "実力派ドライバー"
+    },
+    {
+      "id": "luna-umarase",
+      "name": "Luna Umarase",
+      "number": 3,
+      "teamId": "maradoda-racing",
+      "nationality": "JPN",
+      "bio": "期待の若手"
+    },
+    {
+      "id": "suzuto-nakayama",
+      "name": "Suzuto Nakayama",
+      "number": 4,
+      "teamId": "maradoda-racing",
+      "nationality": "JPN",
+      "bio": "チームメイト"
+    },
+    {
+      "id": "rio-okamura",
+      "name": "Rio Okamura",
+      "number": 5,
+      "teamId": "kci-racing",
+      "nationality": "JPN",
+      "bio": "ベテランドライバー"
+    },
+    {
+      "id": "takuya-ochiai",
+      "name": "Takuya Ochiai",
+      "number": 6,
+      "teamId": "maradoda-racing",
+      "nationality": "JPN",
+      "bio": "安定感のある走り"
+    },
+    {
+      "id": "ryota-takayama",
+      "name": "Ryota Takayama",
+      "number": 7,
+      "teamId": "maradoda-racing",
+      "nationality": "JPN",
+      "bio": "チャレンジャー"
+    }
+  ],
+  "teams": [
+    {
+      "id": "kci-racing",
+      "name": "KCI Racing RBPT Honda",
+      "shortName": "KCI Racing",
+      "color": "#E60012",
+      "description": "強豪チーム"
+    },
+    {
+      "id": "secracing-team",
+      "name": "SecRacingTeam Mercedes",
+      "shortName": "SecRacing",
+      "color": "#00D2BE",
+      "description": "メルセデスパワーユニット搭載"
+    },
+    {
+      "id": "maradoda-racing",
+      "name": "MaraDoda Racing Mercedes",
+      "shortName": "MaraDoda",
+      "color": "#FF8700",
+      "description": "4名体制の強力チーム"
+    }
+  ],
+  "races": [
+    {
+      "id": "rd1-japan-suzuka",
+      "round": 1,
+      "name": "Rd.1 Japan",
+      "circuit": "Suzuka Circuit",
+      "date": "2025-12-12",
+      "country": "JPN",
+      "sessions": [
+        {
+          "sessionType": "RACE 1",
+          "name": "RACE 1",
+          "results": [
+            {
+              "position": 1,
+              "driverId": "chiffon-inugasaki",
+              "teamId": "kci-racing",
+              "laps": 8,
+              "totalTime": "12:16:055",
+              "points": 25
+            },
+            {
+              "position": 2,
+              "driverId": "tsubasa-sekine",
+              "teamId": "secracing-team",
+              "laps": 7,
+              "totalTime": "12:17:377",
+              "points": 18
+            },
+            {
+              "position": 3,
+              "driverId": "luna-umarase",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "12:45:033",
+              "points": 15
+            },
+            {
+              "position": 4,
+              "driverId": "suzuto-nakayama",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "12:53:703",
+              "points": 12
+            },
+            {
+              "position": 5,
+              "driverId": "rio-okamura",
+              "teamId": "kci-racing",
+              "laps": 7,
+              "totalTime": "13:05:866",
+              "points": 10
+            },
+            {
+              "position": 6,
+              "driverId": "takuya-ochiai",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "13:26:260",
+              "points": 8
+            },
+            {
+              "position": 7,
+              "driverId": "ryota-takayama",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "13:30:045",
+              "points": 6
+            }
+          ]
+        },
+        {
+          "sessionType": "RACE 2",
+          "name": "RACE 2",
+          "results": [
+            {
+              "position": 1,
+              "driverId": "chiffon-inugasaki",
+              "teamId": "kci-racing",
+              "laps": 8,
+              "totalTime": "12:16:055",
+              "points": 25
+            },
+            {
+              "position": 2,
+              "driverId": "tsubasa-sekine",
+              "teamId": "secracing-team",
+              "laps": 7,
+              "totalTime": "12:17:377",
+              "points": 18
+            },
+            {
+              "position": 3,
+              "driverId": "rio-okamura",
+              "teamId": "kci-racing",
+              "laps": 7,
+              "totalTime": "12:45:033",
+              "points": 15
+            },
+            {
+              "position": 4,
+              "driverId": "suzuto-nakayama",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "12:53:703",
+              "points": 12
+            },
+            {
+              "position": 5,
+              "driverId": "ryota-takayama",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "13:05:866",
+              "points": 10
+            },
+            {
+              "position": 6,
+              "driverId": "takuya-ochiai",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "13:26:260",
+              "points": 8
+            },
+            {
+              "position": 7,
+              "driverId": "luna-umarase",
+              "teamId": "maradoda-racing",
+              "laps": 7,
+              "totalTime": "13:30:045",
+              "points": 6
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pointsSystem": {
+    "1": 25,
+    "2": 18,
+    "3": 15,
+    "4": 12,
+    "5": 10,
+    "6": 8,
+    "7": 6,
+    "8": 4,
+    "9": 2,
+    "10": 1
+  }
+}

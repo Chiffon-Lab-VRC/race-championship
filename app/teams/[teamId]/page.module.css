@@ -1,0 +1,359 @@
+.teamHeader {
+    position: relative;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    margin-bottom: 3rem;
+    border: 3px solid;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+}
+
+.teamColorBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    border-radius: 8px 8px 0 0;
+}
+
+.teamShortName {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.teamDescription {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.statsSection,
+.driversSection,
+.raceResultsSection {
+    margin-bottom: 4rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.statCard {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid var(--racing-gray);
+    transition: all 0.3s ease;
+}
+
+.statCard:hover {
+    border-color: var(--racing-red);
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+
+.statValue {
+    font-family: var(--font-racing);
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.driversGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+}
+
+.driverCard {
+    position: relative;
+    height: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--racing-gray);
+}
+
+.driverCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+}
+
+.driverCardBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--team-color) 0%, rgba(0, 0, 0, 0.9) 100%);
+    opacity: 0.85;
+}
+
+.driverCardContent {
+    position: relative;
+    display: flex;
+    height: 100%;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.driverPhotoArea {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.driverPhotoArea img {
+    max-height: 220px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.8));
+}
+
+.driverPhotoPlaceholder {
+    font-size: 8rem;
+    opacity: 0.3;
+}
+
+.driverInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.driverNumber {
+    font-family: var(--font-racing);
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.15);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: -1rem;
+}
+
+.driverName {
+    font-family: var(--font-racing);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.driverStats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: auto;
+}
+
+.driverStat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.driverStatLabel {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.driverStatValue {
+    font-family: var(--font-racing);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.raceResultCard {
+    margin-bottom: 1.5rem;
+}
+
+.raceResultCard h3 a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.raceResultCard h3 a:hover {
+    color: var(--racing-red);
+}
+
+.raceInfo {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.resultsTableWrapper {
+    overflow-x: auto;
+}
+
+.resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.resultsTable thead {
+    background: var(--bg-tertiary);
+}
+
+.resultsTable th {
+    padding: 1rem;
+    text-align: left;
+    font-family: var(--font-racing);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--racing-silver);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--racing-gray);
+}
+
+.resultsTable tbody tr {
+    transition: background 0.2s ease;
+}
+
+.resultsTable tbody tr:nth-child(even) {
+    background: var(--bg-tertiary);
+}
+
+.resultsTable tbody tr:hover {
+    background: var(--racing-dark-gray);
+}
+
+.resultsTable td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--racing-gray);
+}
+
+.positionCell {
+    width: 80px;
+    padding-right: 1rem;
+}
+
+.positionBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    font-family: var(--font-racing);
+    font-size: 1.25rem;
+    font-weight: 900;
+    border-radius: 6px;
+    background: var(--racing-gray);
+    color: white;
+}
+
+.positionRow1 .positionBadge {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.positionRow2 .positionBadge {
+    background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+    color: #000;
+    box-shadow: 0 4px 12px rgba(192, 192, 192, 0.4);
+}
+
+.positionRow3 .positionBadge {
+    background: linear-gradient(135deg, #CD7F32, #B87333);
+    color: white;
+    box-shadow: 0 4px 12px rgba(205, 127, 50, 0.4);
+}
+
+.driverCell {
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding-left: 2rem;
+    padding-right: 3rem;
+}
+
+.pointsCell {
+    font-family: var(--font-racing);
+    font-weight: 700;
+    color: var(--racing-red);
+    text-align: right;
+    width: 120px;
+    padding-left: 2rem;
+}
+
+.noResults {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .teamHeader h1 {
+        font-size: 2rem;
+    }
+
+    .teamShortName {
+        font-size: 1.25rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .statValue {
+        font-size: 2.5rem;
+    }
+
+    .driversGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .driverCardContent {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .driverNumber {
+        font-size: 3.5rem;
+    }
+
+    .driverName {
+        font-size: 1.25rem;
+    }
+
+    .driverPhotoArea {
+        justify-content: center;
+    }
+
+    .driverPhotoArea img {
+        max-height: 150px;
+    }
+}
