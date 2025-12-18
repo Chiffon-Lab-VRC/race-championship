@@ -37,21 +37,27 @@ export default function RacesPage() {
       <h1>RACE CALENDAR</h1>
 
       <div className={styles.racesGrid}>
-        {races.map((race) => (
-          <Link href={`/races/${race.id}`} key={race.id}>
-            <div className={`racing-card ${styles.raceCard}`}>
-              <div className={styles.raceRound}>ROUND {race.round}</div>
-              <h3>{race.name}</h3>
-              <div className={styles.raceInfo}>
-                <p className={styles.circuit}>{race.circuit}</p>
-                <p className={styles.date}>{new Date(race.date).toLocaleDateString('ja-JP')}</p>
+        {races.map((race) => {
+          const isScheduled = !race.sessions || race.sessions.length === 0;
+          return (
+            <Link href={`/races/${race.id}`} key={race.id}>
+              <div className={`racing-card ${styles.raceCard}`}>
+                <div className={styles.raceRound}>ROUND {race.round}</div>
+                {isScheduled && (
+                  <div className={styles.scheduledBadge}>📅 予定</div>
+                )}
+                <h3>{race.name}</h3>
+                <div className={styles.raceInfo}>
+                  <p className={styles.circuit}>{race.circuit}</p>
+                  <p className={styles.date}>{new Date(race.date).toLocaleDateString('ja-JP')}</p>
+                </div>
+                <div className={styles.sessionsCount}>
+                  {isScheduled ? '未開催' : `${race.sessions.length} Session${race.sessions.length > 1 ? 's' : ''}`}
+                </div>
               </div>
-              <div className={styles.sessionsCount}>
-                {race.sessions.length} Session{race.sessions.length > 1 ? 's' : ''}
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

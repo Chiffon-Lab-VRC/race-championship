@@ -207,6 +207,25 @@
     background: var(--racing-dark-gray);
 }
 
+.resultPositi.raceRound {
+    font-family: var(--font-racing);
+    font-size: 0.85rem;
+    color: var(--racing-red);
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.scheduledBadge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 16px;
+    margin: 0.5rem 0 1rem 0;
+}
+
 .resultPosition {
     font-family: var(--font-racing);
     font-size: 1.5rem;

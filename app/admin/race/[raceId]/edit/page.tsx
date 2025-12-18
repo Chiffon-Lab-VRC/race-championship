@@ -36,18 +36,7 @@ export default function RaceEditPage() {
                         circuit: '',
                         date: new Date().toISOString().split('T')[0],
                         country: 'JPN',
-                        sessions: [{
-                            sessionType: 'RACE 1',
-                            name: 'RACE 1',
-                            results: data.drivers.map((driver, index) => ({
-                                position: index + 1,
-                                driverId: driver.id,
-                                teamId: driver.teamId,
-                                laps: 0,
-                                totalTime: '00:00:000',
-                                points: 0,
-                            }))
-                        }]
+                        sessions: []  // 空のセッション = 予定のみ
                     });
                 } else {
                     const races = await fetchRaces();

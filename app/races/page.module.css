@@ -57,6 +57,17 @@
     font-weight: 600;
 }
 
+.scheduledBadge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .racesGrid {
         grid-template-columns: 1fr;

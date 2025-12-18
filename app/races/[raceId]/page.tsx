@@ -48,6 +48,47 @@ export default function RaceDetailPage() {
     );
   }
 
+  const isScheduled = !race.sessions || race.sessions.length === 0;
+
+  // 予定レースの表示
+  if (isScheduled) {
+    return (
+      <div className="container">
+        <div className={styles.raceHeader}>
+          <div className={styles.raceRound}>ROUND {race.round}</div>
+          <div className={styles.scheduledBadge}>📅 予定</div>
+          <h1>{race.name}</h1>
+          <div className={styles.raceInfo}>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>サーキット</span>
+              <span className={styles.infoValue}>{race.circuit}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>開催日</span>
+              <span className={styles.infoValue}>{new Date(race.date).toLocaleDateString('ja-JP')}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>国</span>
+              <span className={styles.infoValue}>{race.country}</span>
+            </div>
+          </div>
+        </div>
+        <div className="racing-card" style={{ marginTop: '2rem', padding: '3rem', textAlign: 'center' }}>
+          <h2 style={{ marginBottom: '1rem', color: 'var(--racing-silver)' }}>🏁 レース未開催</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+            このレースはまだ開催されていません。<br />
+            開催後、結果がこちらに表示されます。
+          </p>
+        </div>
+        <Link href="/races" className="btn-racing" style={{ marginTop: '2rem' }}>
+          レース一覧に戻る
+        </Link>
+      </div>
+    );
+  }
+
+  // 既存のレース結果表示ロジック...
+  const mainSession = race.sessions.find(s => s.sessionType.includes('RACE'));
   return (
     <div className="container">
       {/* レースヘッダー */}
