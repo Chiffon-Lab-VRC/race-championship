@@ -1,5 +1,7 @@
 'use client';
 
+export const runtime = 'edge';
+
 import { getData, calculateDriverStandings } from '@/lib/dataManager';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';

@@ -1,5 +1,7 @@
 'use client';
 
+export const runtime = 'edge';
+
 import { getData, saveData } from '@/lib/dataManager';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';

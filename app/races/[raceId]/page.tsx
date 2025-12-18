@@ -1,5 +1,7 @@
 'use client';
 
+export const runtime = 'edge';
+
 import { getData, getDriverById, getTeamById } from '@/lib/dataManager';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
