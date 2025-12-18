@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRequestContext } from '@cloudflare/next-on-pages';
 import { createDbClient } from '@/lib/db';
-import { drivers } from '@/lib/db/schema';
+import { drivers, raceResults } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const runtime = 'edge';
@@ -64,10 +64,13 @@ export async function PUT(request: NextRequest) {
 
             if (currentDriver.length > 0 && currentDriver[0].teamId !== updates.teamId) {
                 // チームが変更される場合、race_resultsのteam_idも更新
-                await db.execute(
-                    `UPDATE race_results SET team_id = ? WHERE driver_id = ?`,
-                    [updates.teamId, id]
-                );
+                // Drizzle ORMを使用してrace_resultsを更新
+                const { raceResults } = await import('@/lib/db/schema');
+                await db
+                    .update(raceResults)
+                    .set({ teamId: updates.teamId })
+                    .where(eq(raceResults.driverId, id));
+
                 console.log(`Updated race results team_id for driver ${id} to ${updates.teamId}`);
             }
         }
