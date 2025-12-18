@@ -2,10 +2,10 @@
 
 export const runtime = 'edge';
 
-import { fetchRaces, createRace, updateRaceData, type Race } from '@/lib/dataManager';
+import { fetchAllData, fetchRaces, createRace, updateRaceData, type Race, type Driver, type ChampionshipData } from '@/lib/dataManager';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import type { Race, RaceSession, RaceResult } from '@/lib/dataManager';
+import type { RaceSession, RaceResult } from '@/lib/dataManager';
 import styles from './page.module.css';
 
 export default function RaceEditPage() {
@@ -14,36 +14,61 @@ export default function RaceEditPage() {
     const raceId = params.raceId as string;
     const isNew = raceId === 'new';
 
-    const [data, setData] = useState(getData());
-    const [race, setRace] = useState<Race>(() => {
-        if (isNew) {
-            const nextRound = data.races.length + 1;
-            return {
-                id: `rd${nextRound}-tbd`,
-                round: nextRound,
-                name: `Rd.${nextRound} TBD`,
-                circuit: '',
-                date: new Date().toISOString().split('T')[0],
-                country: 'JPN',
-                sessions: [{
-                    sessionType: 'RACE 1',
-                    name: 'RACE 1',
-                    results: data.drivers.map((driver, index) => ({
-                        position: index + 1,
-                        driverId: driver.id,
-                        teamId: driver.teamId,
-                        laps: 0,
-                        totalTime: '00:00:000',
-                        points: 0,
-                    }))
-                }]
-            };
+    const [loading, setLoading] = useState(true);
+    const [drivers, setDrivers] = useState<Driver[]>([]);
+    const [pointsSystem, setPointsSystem] = useState<Record<string, number>>({});
+    const [race, setRace] = useState<Race | null>(null);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const data = await fetchAllData();
+                setDrivers(data.drivers);
+                setPointsSystem(data.pointsSystem);
+
+                if (isNew) {
+                    const races = await fetchRaces();
+                    const nextRound = races.length + 1;
+                    setRace({
+                        id: `rd${nextRound}-tbd`,
+                        round: nextRound,
+                        name: `Rd.${nextRound} TBD`,
+                        circuit: '',
+                        date: new Date().toISOString().split('T')[0],
+                        country: 'JPN',
+                        sessions: [{
+                            sessionType: 'RACE 1',
+                            name: 'RACE 1',
+                            results: data.drivers.map((driver, index) => ({
+                                position: index + 1,
+                                driverId: driver.id,
+                                teamId: driver.teamId,
+                                laps: 0,
+                                totalTime: '00:00:000',
+                                points: 0,
+                            }))
+                        }]
+                    });
+                } else {
+                    const races = await fetchRaces();
+                    const foundRace = races.find(r => r.id === raceId);
+                    if (foundRace) {
+                        setRace(foundRace);
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load data:', err);
+                alert('データの読み込みに失敗しました');
+            } finally {
+                setLoading(false);
+            }
         }
-        return data.races.find(r => r.id === raceId) || data.races[0];
-    });
+        loadData();
+    }, [raceId, isNew]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!race) return;
 
         try {
             const raceData: Partial<Race> = {
@@ -70,6 +95,7 @@ export default function RaceEditPage() {
     };
 
     const handleResultChange = (sessionIndex: number, resultIndex: number, field: keyof RaceResult, value: any) => {
+        if (!race) return;
         const newRace = { ...race };
         const result = newRace.sessions[sessionIndex].results[resultIndex];
         (result as any)[field] = value;
@@ -77,17 +103,18 @@ export default function RaceEditPage() {
         // ポイント自動計算
         if (field === 'position') {
             const position = parseInt(value);
-            result.points = data.pointsSystem[position.toString()] || 0;
+            result.points = pointsSystem[position.toString()] || 0;
         }
 
         setRace(newRace);
     };
 
     const addSession = () => {
+        if (!race) return;
         const newSession: RaceSession = {
             sessionType: `RACE ${race.sessions.length + 1}`,
             name: `RACE ${race.sessions.length + 1}`,
-            results: data.drivers.map((driver, index) => ({
+            results: drivers.map((driver, index) => ({
                 position: index + 1,
                 driverId: driver.id,
                 teamId: driver.teamId,
@@ -102,6 +129,14 @@ export default function RaceEditPage() {
             sessions: [...race.sessions, newSession]
         });
     };
+
+    if (loading || !race) {
+        return (
+            <div className="container">
+                <h1>Loading...</h1>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
@@ -168,7 +203,7 @@ export default function RaceEditPage() {
                             </thead>
                             <tbody>
                                 {session.results.map((result, resultIndex) => {
-                                    const driver = data.drivers.find(d => d.id === result.driverId);
+                                    const driver = drivers.find(d => d.id === result.driverId);
                                     return (
                                         <tr key={resultIndex}>
                                             <td>
@@ -230,7 +265,7 @@ export default function RaceEditPage() {
                 <button onClick={addSession} className="btn-secondary">
                     + セッション追加
                 </button>
-                <button onClick={handleSave} className="btn-racing">
+                <button onClick={handleSubmit} className="btn-racing">
                     保存
                 </button>
                 <button onClick={() => router.push('/admin')} className="btn-secondary">
